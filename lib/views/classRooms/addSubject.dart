@@ -1,8 +1,11 @@
 import 'package:class_room_management/helper/navigation.dart';
+import 'package:class_room_management/provider/subjectProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../helper/utils.dart';
 import 'updateSubject.dart';
 
 class AddSubject extends StatefulWidget {
@@ -13,10 +16,17 @@ class AddSubject extends StatefulWidget {
 }
 
 class _AddSubjectState extends State<AddSubject> {
+   @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () async {
+     await getContext().read<SubjectProvider>().fetchSubjectlist();
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+          backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -33,7 +43,7 @@ class _AddSubjectState extends State<AddSubject> {
       body: ListView(
         children: [
           Text(
-            "Students",
+            "Subjects",
             style: GoogleFonts.poppins(
                 textStyle: TextStyle(
                     fontSize: 16.sp,
@@ -44,67 +54,94 @@ class _AddSubjectState extends State<AddSubject> {
           SizedBox(
             height: 10.h,
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: 15,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: ((context, index) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: InkWell(
-                    onTap: () {
-                   NavigationUtils.goNext(context, UpdateSubject());
-                    },
-                    child: Container(
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.r),
-                          color: Colors.grey.shade200),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Students",
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: 12.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w400)),
+          Consumer<SubjectProvider>(
+            builder: (context,provider,child) {
+              return provider.subjectListModel!=null?
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: provider.subjectListModel!.subjects.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: ((context, index) {
+                    return Padding(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      child: InkWell(
+                        onTap: ()async {
+                          await getContext()
+                                .read<SubjectProvider>()
+                                .setSubjectIndex(index);
+                                await getContext()
+                                .read<SubjectProvider>()
+                                .setSubjectId( provider.subjectListModel!.subjects[index].id);
+                           NavigationUtils.goNext(context,UpdateSubject());
+                        },
+                        child: Container(
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.r),
+                              color: Colors.grey.shade200),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        provider.subjectListModel!.subjects[index].name,
+                                        style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400)),
+                                      ),
+                                      Text(
+                                     provider.subjectListModel!.subjects[index].teacher,
+                                        style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                                fontSize: 10.sp,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400)),
+                                      )
+                                    ],
                                   ),
-                                  Text(
-                                    "Students",
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: 10.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w400)),
-                                  )
-                                ],
-                              ),
+                                ),
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        provider.subjectListModel!.subjects[index].credits.toString(),
+                                        style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400)),
+                                      ),
+                                      Text(
+                                        "Credits",
+                                        style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(
+                                                fontSize: 10.sp,
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w400)),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            Text(
-                              "Age: 22",
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500)),
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                );
-              }))
+                    );
+                  })):Container();
+            }
+          )
         ],
       ),
     );

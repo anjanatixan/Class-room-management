@@ -1,12 +1,23 @@
+import 'package:class_room_management/provider/classRoomProvider.dart';
 import 'package:class_room_management/views/Homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import 'helper/navigation.dart';
+import 'provider/studentProvider.dart';
+import 'provider/subjectProvider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: ((context) => StudentProvider())),
+      ChangeNotifierProvider(create: ((context) => SubjectProvider())),
+      ChangeNotifierProvider(create: ((context) => ClassRoomProvider()))
+    ],
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,7 +26,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-   SystemChrome.setPreferredOrientations([
+    SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);

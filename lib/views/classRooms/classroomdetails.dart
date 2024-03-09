@@ -1,7 +1,9 @@
 import 'package:class_room_management/helper/navigation.dart';
+import 'package:class_room_management/provider/classRoomProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'addSubject.dart';
 
@@ -33,16 +35,20 @@ class _ClassRoomDetailsState extends State<ClassRoomDetails> {
       ),
       body: Column(
         children: [
-          Text(
-            "Class Rooms",
-            style: GoogleFonts.poppins(
-              textStyle: TextStyle(
-                fontSize: 16.sp,
-                color: Colors.black,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            textAlign: TextAlign.center,
+          Consumer<ClassRoomProvider>(
+            builder: (context,provider,child) {
+              return Text(
+                provider.roomName.toString(),
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontSize: 15.sp,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                textAlign: TextAlign.center,
+              );
+            }
           ),
           SizedBox(
             height: 10.h,

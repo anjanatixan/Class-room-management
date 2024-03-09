@@ -1,8 +1,11 @@
 import 'package:class_room_management/helper/navigation.dart';
+import 'package:class_room_management/helper/utils.dart';
+import 'package:class_room_management/provider/studentProvider.dart';
 import 'package:class_room_management/views/students/studentDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class StudentsList extends StatefulWidget {
   const StudentsList({super.key});
@@ -12,6 +15,14 @@ class StudentsList extends StatefulWidget {
 }
 
 class _StudentsListState extends State<StudentsList> {
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () async {
+      getContext().read<StudentProvider>().fetchStudentlist();
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,67 +54,80 @@ class _StudentsListState extends State<StudentsList> {
           SizedBox(
             height: 10.h,
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: 15,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: ((context, index) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  child: InkWell(
-                    onTap: () {
-                      NavigationUtils.goNext(context, StudentDetails());
-                    },
-                    child: Container(
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.r),
-                          color: Colors.grey.shade200),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
+          Consumer<StudentProvider>(builder: (context, provider, child) {
+            return provider.studentsListModel != null
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: provider.studentsListModel!.students.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: ((context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: InkWell(
+                          onTap: () async {
+                            await getContext()
+                                .read<StudentProvider>()
+                                .setStudentId(provider
+                                    .studentsListModel!.students[index].id);
+                            NavigationUtils.goNext(context, StudentDetails());
+                          },
+                          child: Container(
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: Colors.grey.shade200),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          provider.studentsListModel!
+                                              .students[index].name,
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400)),
+                                        ),
+                                        Text(
+                                          provider.studentsListModel!
+                                              .students[index].email,
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400)),
+                                        )
+                                      ],
+                                    ),
+                                  ),
                                   Text(
-                                    "Students",
+                                    "Age: ${provider.studentsListModel!.students[index].age}",
                                     style: GoogleFonts.poppins(
                                         textStyle: TextStyle(
                                             fontSize: 12.sp,
                                             color: Colors.black,
-                                            fontWeight: FontWeight.w400)),
-                                  ),
-                                  Text(
-                                    "Students",
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                            fontSize: 10.sp,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w400)),
+                                            fontWeight: FontWeight.w500)),
                                   )
                                 ],
                               ),
                             ),
-                            Text(
-                              "Age: 22",
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                      fontSize: 12.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500)),
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                );
-              }))
+                      );
+                    }))
+                : Container();
+          })
         ],
       ),
     );

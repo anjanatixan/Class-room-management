@@ -5,6 +5,7 @@ import 'package:class_room_management/views/subjects/subjectsList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'classRooms/ClassRooms.dart';
 import 'register/register.dart';
@@ -23,6 +24,16 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       isMenuClicked = !isMenuClicked;
     });
+  }
+
+  @override
+  void initState() {
+    Future.delayed(Duration(seconds: 0), () async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('apiKey', "0009E");
+    
+    });
+    super.initState();
   }
 
   @override
@@ -86,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Expanded(
                             child: InkWell(
-                              onTap: (){
+                              onTap: () {
                                 NavigationUtils.goNext(context, StudentsList());
                               },
                               child: Container(
@@ -95,7 +106,8 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: BorderRadius.circular(10.r),
                                       color: Color(0xffAAC9BF)),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset("assets/images/student.png"),
@@ -119,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Expanded(
                             child: InkWell(
-                              onTap: (){
+                              onTap: () {
                                 NavigationUtils.goNext(context, SubjectsList());
                               },
                               child: Container(
@@ -128,7 +140,8 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: BorderRadius.circular(10.r),
                                       color: Color(0xffD8EBFD)),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset("assets/images/subjects.png"),
@@ -159,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           Expanded(
                             child: InkWell(
-                              onTap: (){
+                              onTap: () {
                                 NavigationUtils.goNext(context, ClassRooms());
                               },
                               child: Container(
@@ -168,7 +181,8 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: BorderRadius.circular(10.r),
                                       color: Color(0xffFFE0DD)),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(
@@ -196,8 +210,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Expanded(
                             child: InkWell(
-                              onTap: (){
-                                NavigationUtils.goNext(context, Registeration());
+                              onTap: () {
+                                NavigationUtils.goNext(
+                                    context, Registeration());
                               },
                               child: Container(
                                   height: 180.h,
@@ -205,7 +220,8 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: BorderRadius.circular(10.r),
                                       color: Color(0xffFFF3D9)),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset("assets/images/register.png"),
@@ -234,8 +250,8 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       InkWell(
-                        onTap: (){
-                           NavigationUtils.goNext(context, StudentsList());
+                        onTap: () {
+                          NavigationUtils.goNext(context, StudentsList());
                         },
                         child: Container(
                           height: 40.h,
@@ -259,8 +275,8 @@ class _HomePageState extends State<HomePage> {
                         height: 20.h,
                       ),
                       InkWell(
-                        onTap: (){
-                           NavigationUtils.goNext(context, SubjectsList());
+                        onTap: () {
+                          NavigationUtils.goNext(context, SubjectsList());
                         },
                         child: Container(
                           height: 40.h,
@@ -284,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                         height: 20.h,
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           NavigationUtils.goNext(context, ClassRooms());
                         },
                         child: Container(
@@ -309,8 +325,8 @@ class _HomePageState extends State<HomePage> {
                         height: 20.h,
                       ),
                       InkWell(
-                        onTap: (){
-                           NavigationUtils.goNext(context, Registeration());
+                        onTap: () {
+                          NavigationUtils.goNext(context, Registeration());
                         },
                         child: Container(
                           height: 40.h,
