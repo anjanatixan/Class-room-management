@@ -198,7 +198,8 @@ class _RegisterationDetailsState extends State<RegisterationDetails> {
                 : Container();
           }),
            Consumer<SubjectProvider>(builder: (context, provider, child) {
-              return Padding(
+              return provider.subjectDetails.length!=0?
+              Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Container(
                   decoration: BoxDecoration(
@@ -253,7 +254,7 @@ class _RegisterationDetailsState extends State<RegisterationDetails> {
                     ),
                   ),
                 ),
-              );
+              ):Container();
             }
           ),
         ],

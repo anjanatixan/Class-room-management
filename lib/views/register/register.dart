@@ -1,6 +1,8 @@
 import 'package:class_room_management/helper/navigation.dart';
 import 'package:class_room_management/helper/utils.dart';
 import 'package:class_room_management/provider/registerationProvider.dart';
+import 'package:class_room_management/provider/studentProvider.dart';
+import 'package:class_room_management/provider/subjectProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -33,6 +35,8 @@ class _RegisterationState extends State<Registeration> {
         padding: const EdgeInsets.all(30.0),
         child: InkWell(
           onTap: () {
+            getContext().read<SubjectProvider>().subjectDetails = [];
+            getContext().read<StudentProvider>().studentDetails = [];
             NavigationUtils.goNext(context, NewRegisteration());
           },
           child: Container(

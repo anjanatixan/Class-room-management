@@ -48,6 +48,8 @@ class RegistrationProvider with ChangeNotifier {
 
   setRegisterationDetails(RegistrationDetailsModel model) async {
     this.registrationDetailsModel = model;
+ await  getContext().read<StudentProvider>().fetchStudentlist();
+ await  getContext().read<SubjectProvider>().fetchSubjectlist();
     getContext().read<StudentProvider>().studentDetails.clear();
     await getContext()
         .read<StudentProvider>()

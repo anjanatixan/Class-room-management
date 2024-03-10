@@ -21,7 +21,7 @@ class _StudentsListState extends State<StudentsList> {
   @override
   void initState() {
     Future.delayed(Duration(seconds: 0), () async {
-      getContext().read<StudentProvider>().fetchStudentlist();
+    await  getContext().read<StudentProvider>().fetchStudentlist();
     });
     super.initState();
   }
