@@ -92,6 +92,20 @@ class ApiService extends BaseService {
   }
 
   @override
+  Future PostResponse(String url, body) async {
+    var responseJson;
+    try {
+      final response = await http.post(Uri.parse(Urls.BASE_URL + url),
+          body: body);
+
+      responseJson = response;
+    } on Exception {
+      throw UnimplementedError();
+    }
+    return responseJson;
+  }
+
+  @override
   Future putResponse(String url, body, headers) async {
     var responseJson;
     try {

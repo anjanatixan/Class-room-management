@@ -1,4 +1,5 @@
 import 'package:class_room_management/provider/classRoomProvider.dart';
+import 'package:class_room_management/provider/registerationProvider.dart';
 import 'package:class_room_management/views/Homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +15,8 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: ((context) => StudentProvider())),
       ChangeNotifierProvider(create: ((context) => SubjectProvider())),
-      ChangeNotifierProvider(create: ((context) => ClassRoomProvider()))
+      ChangeNotifierProvider(create: ((context) => ClassRoomProvider())),
+      ChangeNotifierProvider(create: ((context) => RegistrationProvider()))
     ],
     child: MyApp(),
   ));

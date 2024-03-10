@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: InkWell(
                               onTap: () {
-                                NavigationUtils.goNext(context, StudentsList());
+                                NavigationUtils.goNext(context, StudentsList(flag: true,));
                               },
                               child: Container(
                                   height: 180.h,
@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: InkWell(
                               onTap: () {
-                                NavigationUtils.goNext(context, SubjectsList());
+                                NavigationUtils.goNext(context, SubjectsList(flag: true,));
                               },
                               child: Container(
                                   height: 180.h,
@@ -251,7 +251,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       InkWell(
                         onTap: () {
-                          NavigationUtils.goNext(context, StudentsList());
+                          NavigationUtils.goNext(context, StudentsList(flag: true,));
                         },
                         child: Container(
                           height: 40.h,
@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: () {
-                          NavigationUtils.goNext(context, SubjectsList());
+                          NavigationUtils.goNext(context, SubjectsList(flag: true,));
                         },
                         child: Container(
                           height: 40.h,

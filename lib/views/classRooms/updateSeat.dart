@@ -33,7 +33,7 @@ class _UpdateSeatsState extends State<UpdateSeats> {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(2.r),
-              color: Colors.green.shade300,
+             color: Color.fromARGB(255, 219, 231, 245),
             ),
             child: Padding(
               padding: const EdgeInsets.all(10.0),
@@ -42,7 +42,7 @@ class _UpdateSeatsState extends State<UpdateSeats> {
                 style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                     fontSize: 10.sp,
-                    color: Colors.white,
+                      color: Color(0xff007AFF),
                     fontWeight: FontWeight.w400,
                   ),
                 ),

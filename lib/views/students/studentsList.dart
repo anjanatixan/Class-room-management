@@ -7,8 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../provider/registerationProvider.dart';
+
 class StudentsList extends StatefulWidget {
-  const StudentsList({super.key});
+  final bool flag;
+  const StudentsList({super.key, required this.flag});
 
   @override
   State<StudentsList> createState() => _StudentsListState();
@@ -66,11 +69,20 @@ class _StudentsListState extends State<StudentsList> {
                             horizontal: 12, vertical: 8),
                         child: InkWell(
                           onTap: () async {
-                            await getContext()
-                                .read<StudentProvider>()
-                                .setStudentId(provider
-                                    .studentsListModel!.students[index].id);
-                            NavigationUtils.goNext(context, StudentDetails());
+                            if (widget.flag == true) {
+                              await getContext()
+                                  .read<StudentProvider>()
+                                  .setStudentId(provider
+                                      .studentsListModel!.students[index].id);
+                              NavigationUtils.goNext(context, StudentDetails());
+                            } else {
+                              await getContext().read<RegistrationProvider>().setStudentId(provider
+                                      .studentsListModel!.students[index].id);
+                                 getContext().read<StudentProvider>().studentDetails.clear();
+                                      await getContext().read<StudentProvider>().getDetailsByIDs(provider
+                                      .studentsListModel!.students[index].id);
+                              NavigationUtils.goBack(context);
+                            }
                           },
                           child: Container(
                             height: 50.h,

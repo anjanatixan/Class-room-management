@@ -16,11 +16,10 @@ class ClassRooms extends StatefulWidget {
 }
 
 class _ClassRoomsState extends State<ClassRooms> {
-
-   @override
+  @override
   void initState() {
     Future.delayed(Duration(seconds: 0), () async {
-    await  getContext().read<ClassRoomProvider>().fetchClassRoomlist();
+      await getContext().read<ClassRoomProvider>().fetchClassRoomlist();
     });
     super.initState();
   }
@@ -28,7 +27,7 @@ class _ClassRoomsState extends State<ClassRooms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -56,94 +55,104 @@ class _ClassRoomsState extends State<ClassRooms> {
           SizedBox(
             height: 10.h,
           ),
-          Consumer<ClassRoomProvider>(
-            builder: (context,provider,child) {
-              return provider.classRoomsModel!=null?
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount:provider.classRoomsModel!.classrooms.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: ((context, index) {
-                    return Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      child: InkWell(
-                        onTap: () async{
+          Consumer<ClassRoomProvider>(builder: (context, provider, child) {
+            return provider.classRoomsModel != null
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: provider.classRoomsModel!.classrooms.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: ((context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 8),
+                        child: InkWell(
+                          onTap: () async {
                             await getContext()
                                 .read<ClassRoomProvider>()
-                                .setRoomId(provider.classRoomsModel!.classrooms[index].id);
-                                 await getContext()
+                                .setRoomId(provider
+                                    .classRoomsModel!.classrooms[index].id);
+                            await getContext()
                                 .read<ClassRoomProvider>()
-                                .setRoomname(provider.classRoomsModel!.classrooms[index].name);
-                         NavigationUtils.goNext(context, ClassRoomDetails());
-                        },
-                        child: Container(
-                          height: 50.h,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              color: Colors.grey.shade200),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                       provider.classRoomsModel!.classrooms[index].name,
-                                        style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                                fontSize: 12.sp,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w400)),
-                                      ),
-                                      Text(
-                                      provider.classRoomsModel!.classrooms[index].layout,
-                                        style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                                fontSize: 10.sp,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w400)),
-                                      )
-                                    ],
+                                .setRoomname(provider
+                                    .classRoomsModel!.classrooms[index].name);
+                            NavigationUtils.goNext(context, ClassRoomDetails());
+                          },
+                          child: Container(
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: Colors.grey.shade200),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          provider.classRoomsModel!
+                                              .classrooms[index].name,
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400)),
+                                        ),
+                                        Text(
+                                          provider.classRoomsModel!
+                                              .classrooms[index].layout,
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400)),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        provider.classRoomsModel!.classrooms[index].size.toString(),
-                                        style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                                fontSize: 12.sp,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w400)),
-                                      ),
-                                      Text(
-                                        "Seats",
-                                        style: GoogleFonts.poppins(
-                                            textStyle: TextStyle(
-                                                fontSize: 10.sp,
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w400)),
-                                      )
-                                    ],
+                                  Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          provider.classRoomsModel!
+                                              .classrooms[index].size
+                                              .toString(),
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 12.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400)),
+                                        ),
+                                        Text(
+                                          "Seats",
+                                          style: GoogleFonts.poppins(
+                                              textStyle: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  color: Colors.black,
+                                                  fontWeight: FontWeight.w400)),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    );
-                  })):Container();
-            }
-          )
+                      );
+                    }))
+                : Container();
+          })
         ],
       ),
     );

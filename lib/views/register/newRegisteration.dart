@@ -1,8 +1,15 @@
 import 'package:class_room_management/helper/navigation.dart';
-import 'package:class_room_management/views/register/register.dart';
+import 'package:class_room_management/helper/utils.dart';
+import 'package:class_room_management/provider/registerationProvider.dart';
+import 'package:class_room_management/provider/studentProvider.dart';
+import 'package:class_room_management/provider/subjectProvider.dart';
+import 'package:class_room_management/views/students/studentsList.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../subjects/subjectsList.dart';
 
 class NewRegisteration extends StatefulWidget {
   const NewRegisteration({super.key});
@@ -45,83 +52,103 @@ class _NewRegisterationState extends State<NewRegisteration> {
           SizedBox(
             height: 20.h,
           ),
-          Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Container(
-              height: 50.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.r),
-                color: Colors.grey.shade200,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Select a student",
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
+          Consumer<StudentProvider>(builder: (context, provider, child) {
+            return Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: InkWell(
+                onTap: () {
+                  NavigationUtils.goNext(
+                      context,
+                      StudentsList(
+                        flag: false,
+                      ));
+                },
+                child: Container(
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: Colors.grey.shade200,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          provider.studentDetails.length == 0
+                              ? "Select a student"
+                              : provider.studentDetails[0]["name"].toString(),
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              fontSize: 12.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          // NavigationUtils.goNext(context, AddSubject());
-                        },
-                        child: Icon(
+                        Icon(
                           Icons.arrow_forward_ios_rounded,
                           size: 18.sp,
-                        )),
-                  ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14,vertical: 10),
-            child: Container(
-              height: 50.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.r),
-                color: Colors.grey.shade200,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Select a subject",
-                      style: GoogleFonts.poppins(
-                        textStyle: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
+            );
+          }),
+          Consumer<SubjectProvider>(builder: (context, provider, child) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              child: InkWell(
+                onTap: () {
+                  NavigationUtils.goNext(
+                      context,
+                      SubjectsList(
+                        flag: false,
+                      ));
+                },
+                child: Container(
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: Colors.grey.shade200,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          provider.subjectDetails.length == 0
+                              ? "Select a subject"
+                              : provider.subjectDetails[0]["name"].toString(),
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                              fontSize: 12.sp,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          // NavigationUtils.goNext(context, AddSubject());
-                        },
-                        child: Icon(
+                        Icon(
                           Icons.arrow_forward_ios_rounded,
                           size: 18.sp,
-                        )),
-                  ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
           Padding(
             padding: const EdgeInsets.all(80.0),
             child: InkWell(
-              onTap: () {
-                NavigationUtils.goNext(context, Registeration());
+              onTap: () async {
+                await getContext()
+                    .read<RegistrationProvider>()
+                    .newRegisteration();
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -11,6 +11,9 @@ class SubjectProvider with ChangeNotifier {
   SubjectRepo subjectRepo = SubjectRepo();
   var subjectId;
   var index;
+  List subjectlist = [];
+  List<Map<String, String>> subjectDetails = [];
+
 
   setSubjectIndex(var index){
     this.index=index;
@@ -28,6 +31,7 @@ class SubjectProvider with ChangeNotifier {
 
   setSubjectList(SubjectListModel model) {
     this.subjectListModel = model;
+    subjectlist=this.subjectListModel!.subjects;
     notifyListeners();
   }
 
@@ -40,5 +44,43 @@ class SubjectProvider with ChangeNotifier {
   setSubjectDetails(SubjecDetailsModel model) {
     this.subjectDetailstModel = model;
     notifyListeners();
+  }
+  
+   String getNameById(int id) {
+    var matchingItems = subjectlist.where((item) => item.id == id);
+    if (matchingItems.isNotEmpty) {
+      return matchingItems.first.name;
+    }
+    notifyListeners();
+    return "";
+  }
+
+  String getTeacherById(int id) {
+    var matchingItems = subjectlist.where((item) => item.id == id);
+    if (matchingItems.isNotEmpty) {
+      return matchingItems.first.teacher;
+    }
+
+    return "";
+  }
+
+  String getCreditById(int id) {
+    var matchingItems = subjectlist.where((item) => item.id == id);
+    if (matchingItems.isNotEmpty) {
+      return matchingItems.first.credits.toString();
+    }
+    notifyListeners();
+    return "";
+  }
+
+  List<Map<String, String>> getDetailsByIDs(int id) {
+    String name = getNameById(id);
+    String teacher = getTeacherById(id);
+    String credits = getCreditById(id);
+    if (name.isNotEmpty && teacher.isNotEmpty) {
+      subjectDetails.add({"name": name, "teacher": teacher,"credits":credits});
+    }
+    notifyListeners();
+    return subjectDetails;
   }
 }
